@@ -29,7 +29,7 @@ Related doc for CyberPanel: https://community.cyberpanel.net/t/reverse-proxy-tra
 
 You can use my image in your docker-compose/quadlet file if you want an up-to-date version of it-tools (with my PR and some of others) until the main branch has been updated.
 
-- github action triggers on every push to this branch - [view package here](https://github.com/sharevb/it-tools/pkgs/container/it-tools)
+- github action triggers on every push to this branch - [view package here](https://github.com/rnagarajanmca/it-tools/pkgs/container/it-tools)
 
 (Thanks to [gitmotion](https://github.com/gitmotion/it-tools) for this model of README fork)
 
@@ -37,7 +37,7 @@ You can use my image in your docker-compose/quadlet file if you want an up-to-da
 
 Big thanks to all the people who have already contributed!
 
-[![contributors](https://contrib.rocks/image?repo=sharevb/it-tools&refresh=1)](https://github.com/sharevb/it-tools/graphs/contributors)
+[![contributors](https://contrib.rocks/image?repo=rnagarajanmca/it-tools&refresh=1)](https://github.com/rnagarajanmca/it-tools/graphs/contributors)
 
 ## Development under Windows
 
@@ -54,11 +54,9 @@ Use of WSL2 is recommended to develop using VSCode on Windows. Direct developmen
 
 ## Container images
 
-[GitHub Container Registry](https://github.com/sharevb/it-tools/pkgs/container/it-tools): `ghcr.io/sharevb/it-tools:latest`
+[GitHub Container Registry](https://github.com/rnagarajanmca/it-tools/pkgs/container/it-tools): `ghcr.io/rnagarajanmca/it-tools:latest`
 
-[Docker Hub](https://hub.docker.com/r/sharevb/it-tools): `sharevb/it-tools:latest`
-
-[Docker Hub (nagarajan build)](https://hub.docker.com/r/nagarajan/it-tools): `nagarajan/it-tools:latest`
+[Docker Hub](https://hub.docker.com/r/nagarajan/it-tools): `nagarajan/it-tools:latest`
 
 ## Use in Docker Compose file
 
@@ -66,7 +64,7 @@ Use of WSL2 is recommended to develop using VSCode on Windows. Direct developmen
 services:
   it-tools:
     container_name: it-tools
-    image: sharevb/it-tools:latest
+    image: nagarajan/it-tools:latest
     pull_policy: always
     restart: unless-stopped
     ports:
@@ -82,7 +80,7 @@ After=network-online.target
 
 [Container]
 AutoUpdate=registry
-Image=ghcr.io/sharevb/it-tools:latest
+Image=ghcr.io/rnagarajanmca/it-tools:latest
 PublishPort=8080:8080
 Label=io.containers.autoupdate=registry
 
@@ -109,7 +107,7 @@ You can filter available tools by mounting `tools-filter.json` in `/usr/share/ng
 ```
 Category matches on category (English) names ; Tools matches on tools path/url.
 
-See [docker-tools-filter-and-home-content](https://github.com/sharevb/it-tools)
+See [docker-tools-filter-and-home-content](https://github.com/rnagarajanmca/it-tools)
 
 ## Add custom external tools
 
@@ -136,7 +134,7 @@ You can add custom external tools (href or markdownContent) by mounting a `exter
 ]
 ```
 
-See [docker-tools-filter-and-home-content](https://github.com/sharevb/it-tools)
+See [docker-tools-filter-and-home-content](https://github.com/rnagarajanmca/it-tools)
 
 ## Setting default tools parameters / default UI language at runtime
 
@@ -195,7 +193,7 @@ docker run -d --name it-tools-fr --restart unless-stopped -p 8080:8080 it-tools-
 
 ## Build container image for a custom subfolder
 
-According to https://github.com/sharevb/it-tools/pull/461#issuecomment-1602506049 and https://github.com/CorentinTh/it-tools/pull/461:
+According to https://github.com/rnagarajanmca/it-tools/pull/461#issuecomment-1602506049 and https://github.com/CorentinTh/it-tools/pull/461:
 ```
 docker build -t it-tools  --build-arg BASE_URL="/my-folder/" .
 docker run -d --name it-tools --restart unless-stopped -p 8080:8080 it-tools
@@ -209,16 +207,16 @@ So you would need to put another server in front of it, like [Nginx Proxy Manage
 
 For `/it-tools/` subfolder, you can use `baseurl-it-tools` tag.
 
-See [sample of docker-compose.yml and nginx.conf](https://github.com/sharevb/it-tools/tree/chore/all-my-stuffs/docker-subfolder-sample), this docker image needs to have another reverse proxy in front of it, like [Nginx Proxy Manager](https://nginxproxymanager.com/), [Traefik](https://traefik.io/traefik/), [caddy](https://caddyserver.com/) etc. 
+See [sample of docker-compose.yml and nginx.conf](https://github.com/rnagarajanmca/it-tools/tree/chore/all-my-stuffs/docker-subfolder-sample), this docker image needs to have another reverse proxy in front of it, like [Nginx Proxy Manager](https://nginxproxymanager.com/), [Traefik](https://traefik.io/traefik/), [caddy](https://caddyserver.com/) etc. 
 
 Setup a reverse proxy pass using `/it-tools/`. And you should be able to access it-tools in `/it-tools/` of your server.
 
-An example of nginx reverse proxy configuration is available at: https://github.com/sharevb/it-tools/tree/chore/all-my-stuffs/docker-subfolder-sample
+An example of nginx reverse proxy configuration is available at: https://github.com/rnagarajanmca/it-tools/tree/chore/all-my-stuffs/docker-subfolder-sample
 
 To run the sample:
 
 ```bash
-git clone https://github.com/sharevb/it-tools
+git clone https://github.com/rnagarajanmca/it-tools
 cd it-tools/docker-subfolder-sample/
 docker compose up
 ```
@@ -233,7 +231,7 @@ Then navigate to http://localhost:8080/it-tools/
 ## To build for GitHub Pages:
 
 1. Enable GitHub Pages build and deployment option in your fork, under **Settings** > **Pages** and select **GitHub Actions** as the source
-2. Add the following GitHub action to your repo: https://github.com/sharevb/it-tools/tree/chore/all-my-stuffs/.github/workflows/sharevb-github-pages-publish.yml
+2. Add the following GitHub action to your repo: https://github.com/rnagarajanmca/it-tools/tree/chore/all-my-stuffs/.github/workflows/sharevb-github-pages-publish.yml
 
 ## To add authentication
 
@@ -248,7 +246,7 @@ Assuming you're already hosting it-tools behind a reverse proxy, you can configu
 
 In Proxmox VE, you can use docker image directly:
 ```bash
-sudo lxc-create -n sharevb-it-tools -t oci -- --url docker://ghcr.io/sharevb/it-tools:latest
+sudo lxc-create -n rnagarajanmca-it-tools -t oci -- --url docker://ghcr.io/rnagarajanmca/it-tools:latest
 ```
 
 ## Contribute
@@ -342,7 +340,7 @@ Local installation required installing first: `python3 make g++`
 
 | Container Image                         | Local Installation                                                                                                          |
 |-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
-| GitHub Container Registry: <span title="triple click me!">`ghcr.io/sharevb/it-tools:latest`</span><br/>Docker Hub: <span title="triple click me!">`sharevb/it-tools:latest`</span><br/>Docker Hub (nagarajan): <span title="triple click me!">`nagarajan/it-tools:latest`</span> | <span title="triple click me!">`sudo apt-get install python3 make g++ && git clone -b chore/all-my-stuffs https://github.com/sharevb/it-tools.git && cd it-tools/ && pnpm i --ignore-scripts && pnpm dev`</span> |
+| GitHub Container Registry: <span title="triple click me!">`ghcr.io/rnagarajanmca/it-tools:latest`</span><br/>Docker Hub: <span title="triple click me!">`nagarajan/it-tools:latest`</span> | <span title="triple click me!">`sudo apt-get install python3 make g++ && git clone -b chore/all-my-stuffs https://github.com/rnagarajanmca/it-tools.git && cd it-tools/ && pnpm i --ignore-scripts && pnpm dev`</span> |
 | replace your current image with this image | copy & paste oneliner (from github repo) |
 | You may need to clear cache and hard reload to get new features loading | Installing packages for the first time may take some time; please wait until it finishes |
 
