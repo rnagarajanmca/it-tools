@@ -1,7 +1,7 @@
 services:
   it-tools:
     container_name: it-tools
-    image: sharevb/it-tools:latest
+    image: nagarajan/it-tools:latest
     pull_policy: always
     restart: unless-stopped
     ports:

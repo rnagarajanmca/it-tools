@@ -1,66 +1,27 @@
-## BREAKING CHANGE for Container Image
+# IT Tools - Enhanced Fork
 
-Since the *base image* is now `nginx-unpriviledged` the container will now listen to port **8080** and not 80. So you need to update your port mapping, i.e. from `8080:80` to `8080:8080`.
+A comprehensive collection of handy IT tools with many enhancements and additional features compared to the original.
 
-You can override listening port using environment variable `PORT` (docker option `-e PORT=8888`).
+## Features
 
-If the container needs to listen to IPv6, it needs to be enabled: https://serverfault.com/questions/1147296/how-to-enable-ipv6-on-ubuntu-20-04. Alternatively, you can mount your own `nginx.conf` own using docker option `-v "./nginx.conf:/etc/nginx/templates/default.conf.template"` (with `listen [::]:8080;` removed)
+- **192+ tools** from the original IT Tools project
+- **95% of issues** from the original project resolved
+- **Full UI translation** in multiple languages
+- **Many new tools** not available in the original
+- **Bug fixes and enhancements** throughout
+- **Docker container** for easy deployment
 
-## PR Welcome
+## Quick Start
 
-Especially for UI improvements and translation. And for anything else.
+### Docker (Recommended)
 
-Want to support this fork of IT Tools: [Buy me a coffee](https://www.buymeacoffee.com/sharevb)
+```bash
+docker run -d --name it-tools --restart unless-stopped -p 8080:8080 nagarajan/it-tools:latest
+```
 
-## HTTPS is recommended
+### Docker Compose
 
-Some tools like PGP encryption rely on WebCrypto API that is only available in HTTPS/SSL. Also, if you want to use PWA, HTTPS is required.
-
-So even on internal installations, you should enable HTTPS using Let's Encrypt using DNS Challenge
-
-Some docs about DNS Challenge:
-- https://medium.com/@life-is-short-so-enjoy-it/homelab-nginx-proxy-manager-setup-ssl-certificate-with-domain-name-in-cloudflare-dns-732af64ddc0b
-- https://doc.traefik.io/traefik/user-guides/docker-compose/acme-dns/
-- https://medium.com/@svenvanginkel/traefik-letsencrypt-dns01-challenge-with-ovhcloud-52f2a2c6d08a
-
-Related doc for CyberPanel: https://community.cyberpanel.net/t/reverse-proxy-traffic-to-docker-container-on-cyberpanel/30644
-
-### Check out these change here: <https://sharevb-it-tools.vercel.app/> or <https://sharevb.github.io/it-tools/>
-
-You can use my image in your docker-compose/quadlet file if you want an up-to-date version of it-tools (with my PR and some of others) until the main branch has been updated.
-
-- github action triggers on every push to this branch - [view package here](https://github.com/rnagarajanmca/it-tools/pkgs/container/it-tools)
-
-(Thanks to [gitmotion](https://github.com/gitmotion/it-tools) for this model of README fork)
-
-## Contributors
-
-Big thanks to all the people who have already contributed!
-
-[![contributors](https://contrib.rocks/image?repo=rnagarajanmca/it-tools&refresh=1)](https://github.com/rnagarajanmca/it-tools/graphs/contributors)
-
-## Development under Windows
-
-Use of WSL2 is recommended to develop using VSCode on Windows. Direct development is tricky (because of some dependencies)
-
-## Added features
-
-- Almost [all tools PR, 192 of mine, of original it-tools](https://github.com/CorentinTh/it-tools/pulls)
-- 95% of [issues if original it-tools](https://github.com/CorentinTh/it-tools/issues)
-- Full UI translation in many language (Google Translated)
-- Many [new tools](https://sharevb-it-tools.vercel.app/about)
-- Many bug fixes and enhancements
-- Many customizations (Docker version), see below
-
-## Container images
-
-[GitHub Container Registry](https://github.com/rnagarajanmca/it-tools/pkgs/container/it-tools): `ghcr.io/rnagarajanmca/it-tools:latest`
-
-[Docker Hub](https://hub.docker.com/r/nagarajan/it-tools): `nagarajan/it-tools:latest`
-
-## Use in Docker Compose file
-
-```yml
+```yaml
 services:
   it-tools:
     container_name: it-tools
@@ -71,285 +32,73 @@ services:
       - 8080:8080
 ```
 
-## Use in Podman Quadlet file
-
-```
-[Unit]
-Description=IT Tools container
-After=network-online.target
-
-[Container]
-AutoUpdate=registry
-Image=ghcr.io/rnagarajanmca/it-tools:latest
-PublishPort=8080:8080
-Label=io.containers.autoupdate=registry
-
-[Install]
-WantedBy=multi-user.target default.target
-
-[Service]
-Restart=always
-```
-
-
-## Filter tools and add home custom content
-
-You can add custom content in Home page by mounting a `home.custom.md` in `/usr/share/nginx/html`.
-
-You can filter available tools by mounting `tools-filter.json` in `/usr/share/nginx/html`. It can contains the following filtering regex:
-```json
-{
-  "excludeCategoryFilterRegex": "",
-  "includeCategoryFilterRegex": "",
-  "excludeToolsFilterRegex": "",
-  "includeToolsFilterRegex": ""
-}
-```
-Category matches on category (English) names ; Tools matches on tools path/url.
-
-See [docker-tools-filter-and-home-content](https://github.com/rnagarajanmca/it-tools)
-
-## Add custom external tools
-
-You can add custom external tools (href or markdownContent) by mounting a `external-tools.json` in `/usr/share/nginx/html` with the following structure:
-
-```json
-[
-  {
-    "name": "GitHub",
-    "path": "/github",
-    "description": "Link to Github",
-    "keywords": ["github"],
-    "category": "Links",
-    "href": "https://github.com"
-  },
-  {
-    "name": "Some text",
-    "path": "/some-text",
-    "description": "Some description",
-    "keywords": ["some"],
-    "category": "Links",
-    "markdownContent": "Some useful **text**\n\nin *markdown*"
-  }
-]
-```
-
-See [docker-tools-filter-and-home-content](https://github.com/rnagarajanmca/it-tools)
-
-## Setting default tools parameters / default UI language at runtime
-
-You can set default tool parameters by mounting a `tools-settings.json` in `/usr/share/nginx/html`.
-
-It is a two level json, with the first level being for `tool name` and the second level for `parameter name`:
-```json
-{
-  "regex-tester": {
-    "multi": true,
-    "regex": "some regex",
-    "global": false
-  }
-}
-```
-
-You can find `tool name` and `parameter name` in the tools source code `src/tools` subfolder :
-- example pattern for `const global = useQueryParamOrStorage({ storageName: 'regex-tester:g', name: 'global', defaultValue: true });`:
-```json
-{
-  "regex-tester": {
-    "global": false
-  }
-}
-```
-- example pattern for `const value = useQueryParam({ tool: 'barcode-gen', name: 'text', defaultValue: '123456789' });`:
-```json
-{
-  "barcode-gen": {
-    "text": "4356"
-  }
-}
-```
-- example pattern for `const width = useITStorage('ascii-text-drawer:width', 80);`:
-```json
-{
-  "ascii-text-drawer": {
-    "width": 80
-  }
-}
-```
-
-To define the default UI language, add a `default_locale` key to json:
-```json
-{
-  "default_locale": "fr"
-}
-```
-
-## To build using a custom default language:
-
-```
-docker build -t it-tools-fr --build-arg VITE_LANGUAGE=fr .
-docker run -d --name it-tools-fr --restart unless-stopped -p 8080:8080 it-tools-fr
-```
-
-## Build container image for a custom subfolder
-
-According to https://github.com/rnagarajanmca/it-tools/pull/461#issuecomment-1602506049 and https://github.com/CorentinTh/it-tools/pull/461:
-```
-docker build -t it-tools  --build-arg BASE_URL="/my-folder/" .
-docker run -d --name it-tools --restart unless-stopped -p 8080:8080 it-tools
-```
-
-Then if you go to `http://localhost:8080` you'll get a blank page, but opening the DevTools (& refreshing) you'll notice in the Network tab that the app is trying to fetch assets from `/my-folder/...`
-
-So you would need to put another server in front of it, like [Nginx Proxy Manager](https://nginxproxymanager.com/), [Traefik](https://traefik.io/traefik/), [caddy](https://caddyserver.com/) etc. Then setup a reverse proxy pass using `/my-folder`
-
-## Docker compose for hosting in a `/it-tools/` subfolder
-
-For `/it-tools/` subfolder, you can use `baseurl-it-tools` tag.
-
-See [sample of docker-compose.yml and nginx.conf](https://github.com/rnagarajanmca/it-tools/tree/chore/all-my-stuffs/docker-subfolder-sample), this docker image needs to have another reverse proxy in front of it, like [Nginx Proxy Manager](https://nginxproxymanager.com/), [Traefik](https://traefik.io/traefik/), [caddy](https://caddyserver.com/) etc. 
-
-Setup a reverse proxy pass using `/it-tools/`. And you should be able to access it-tools in `/it-tools/` of your server.
-
-An example of nginx reverse proxy configuration is available at: https://github.com/rnagarajanmca/it-tools/tree/chore/all-my-stuffs/docker-subfolder-sample
-
-To run the sample:
+### Local Installation
 
 ```bash
-git clone https://github.com/rnagarajanmca/it-tools
-cd it-tools/docker-subfolder-sample/
-docker compose up
-```
-
-Then navigate to http://localhost:8080/it-tools/
-
-## To build using a custom folder:
-
-1. `BASE_URL="/it-tools/" pnpm build`
-2. Rename the generated `dist` folder to `it-tools` and serve on `https://your-domain.com/it-tools`
-
-## To build for GitHub Pages:
-
-1. Enable GitHub Pages build and deployment option in your fork, under **Settings** > **Pages** and select **GitHub Actions** as the source
-2. Add the following GitHub action to your repo: https://github.com/rnagarajanmca/it-tools/tree/chore/all-my-stuffs/.github/workflows/sharevb-github-pages-publish.yml
-
-## To add authentication
-
-Assuming you're already hosting it-tools behind a reverse proxy, you can configure forward-auth and enforce authentication from the reverse proxy
-
-* [Official guides](https://docs.goauthentik.io/docs/add-secure-apps/providers/proxy/server_nginx) with nginx. Guides with other reverse proxy setups are available
-* [Step-by-step setup guide with nginx-proxy-manager](https://geekscircuit.com/set-up-authentik-sso-with-nginx-proxy-manager/)
-
-(thanks @jogerj)
-
-## Deploy as LXC container
-
-In Proxmox VE, you can use docker image directly:
-```bash
-sudo lxc-create -n rnagarajanmca-it-tools -t oci -- --url docker://ghcr.io/rnagarajanmca/it-tools:latest
-```
-
-## Contribute
-
-### Recommended IDE Setup
-
-To install VSCode in WSL2 (Windows), see: https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode
-
-[VSCode](https://code.visualstudio.com/) with the following extensions:
-
-- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur)
-- [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [i18n Ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally)
-
-with the following settings:
-
-```json
-{
-  "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "i18n-ally.localesPaths": ["locales", "src/tools/*/locales"],
-  "i18n-ally.keystyle": "nested"
-}
-```
-
-### Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-### Project Setup
-
-```sh
-pnpm install --ignore-scripts
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
+sudo apt-get install python3 make g++ && \
+git clone -b chore/all-my-stuffs https://github.com/rnagarajanmca/it-tools.git && \
+cd it-tools/ && \
+pnpm i --ignore-scripts && \
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Container Images
 
-```sh
-pnpm build
+- **Docker Hub**: `nagarajan/it-tools:latest`
+- **GitHub Container Registry**: `ghcr.io/rnagarajanmca/it-tools:latest`
+
+## Important Notes
+
+### Port Change
+The container now uses port **8080** instead of 80 (due to nginx-unprivileged base image). Update your port mappings from `8080:80` to `8080:8080`.
+
+### HTTPS Recommendation
+Some tools (like PGP encryption) require HTTPS/SSL for WebCrypto API. Enable HTTPS even for internal installations using Let's Encrypt with DNS Challenge.
+
+## Customization
+
+### Filter Tools
+Mount `tools-filter.json` to `/usr/share/nginx/html` to filter available tools using regex patterns.
+
+### Custom Home Content
+Mount `home.custom.md` to `/usr/share/nginx/html` to add custom content to the home page.
+
+### External Tools
+Add custom external tools by mounting `external-tools.json` with tool definitions.
+
+### Default Settings
+Set default tool parameters and UI language by mounting `tools-settings.json`.
+
+## Development
+
+### Prerequisites
+- Node.js 22+
+- pnpm
+- Python3, make, g++
+
+### Setup
+```bash
+pnpm install --ignore-scripts
+pnpm dev
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-pnpm test
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
-
-### Ensure CI (lock, eslint, typecheck) will succeed
-
-Before submitting a PR, run:
-
-```sh
-pnpm install --ignore-scripts && pnpm lint --fix && pnpm typecheck
-```
-
-### Create a new tool
-
-To create a new tool, there is a script that generate the boilerplate of the new tool, simply run:
-
-```sh
+### Create New Tool
+```bash
 pnpm run script:create:tool my-tool-name
 ```
 
-It will create a directory in `src/tools` with the correct files. You will need to fill `src/tools/_my-tool-name_/index.ts` with tool name, category, description... and then develop the tool.
+## Links
 
-## Installation methods
+- **GitHub Repository**: https://github.com/rnagarajanmca/it-tools
+- **Live Demo**: https://sharevb-it-tools.vercel.app/
+- **Docker Hub**: https://hub.docker.com/r/nagarajan/it-tools
 
-Local installation required installing first: `python3 make g++`
+## Contributors
 
-| Container Image                         | Local Installation                                                                                                          |
-|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
-| GitHub Container Registry: <span title="triple click me!">`ghcr.io/rnagarajanmca/it-tools:latest`</span><br/>Docker Hub: <span title="triple click me!">`nagarajan/it-tools:latest`</span> | <span title="triple click me!">`sudo apt-get install python3 make g++ && git clone -b chore/all-my-stuffs https://github.com/rnagarajanmca/it-tools.git && cd it-tools/ && pnpm i --ignore-scripts && pnpm dev`</span> |
-| replace your current image with this image | copy & paste oneliner (from github repo) |
-| You may need to clear cache and hard reload to get new features loading | Installing packages for the first time may take some time; please wait until it finishes |
+Big thanks to all contributors who have helped improve this project!
 
-<picture>
-    <source srcset="./.github/logo-dark.png" media="(prefers-color-scheme: light)">
-    <source srcset="./.github/logo-white.png" media="(prefers-color-scheme: dark)">
-    <img src="./.github/logo-dark.png" alt="logo">
-</picture>
+[![contributors](https://contrib.rocks/image?repo=rnagarajanmca/it-tools&refresh=1)](https://github.com/rnagarajanmca/it-tools/graphs/contributors)
 
 ## License
 
-This project is under the [GNU GPLv3](LICENSE).
+GNU GPLv3 - See [LICENSE](LICENSE) file for details.
