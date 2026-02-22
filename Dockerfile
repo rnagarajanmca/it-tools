@@ -9,7 +9,7 @@ RUN apk add --update python3 make g++\
 
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm@8 && pnpm i --ignore-scripts
+RUN npm install -g pnpm@9 && pnpm i --ignore-scripts
 COPY . .
 ARG BASE_URL
 ENV BASE_URL=${BASE_URL}
@@ -26,5 +26,8 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 ENV PORT=8080
 EXPOSE $PORT
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget -qO- http://localhost:${PORT}/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]

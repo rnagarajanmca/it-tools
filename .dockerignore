@@ -3,3 +3,8 @@ playwright-report
 coverage
 dist
 test-results
+.git
+.github
+.env*
+*.md
+!README.md
