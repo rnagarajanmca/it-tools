@@ -10,7 +10,9 @@ import {
 import { presetScrollbar } from 'unocss-preset-scrollbar';
 
 export default defineConfig({
-  presets: [presetUno(), presetAttributify({ ignoreAttributes: ['size'] }), presetTypography(), presetScrollbar()],
+  presets: [presetUno(), presetAttributify({
+    ignoreAttributes: ['size'],
+  }), presetTypography(), presetScrollbar()],
   transformers: [transformerDirectives(), transformerVariantGroup()],
   theme: {
     colors: {

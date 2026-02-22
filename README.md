@@ -1,131 +1,104 @@
-<picture>
-    <source srcset="./.github/logo-dark.png" media="(prefers-color-scheme: light)">
-    <source srcset="./.github/logo-white.png" media="(prefers-color-scheme: dark)">
-    <img src="./.github/logo-dark.png" alt="logo">
-</picture>
+# IT Tools - Enhanced Fork
 
-Useful tools for developer and people working in IT. [Have a look !](https://it-tools.tech).
+A comprehensive collection of handy IT tools with many enhancements and additional features compared to the original.
 
-## Functionalities and roadmap
+## Features
 
-Please check the [issues](https://github.com/CorentinTh/it-tools/issues) to see if some feature listed to be implemented.
+- **192+ tools** from the original IT Tools project
+- **95% of issues** from the original project resolved
+- **Full UI translation** in multiple languages
+- **Many new tools** not available in the original
+- **Bug fixes and enhancements** throughout
+- **Docker container** for easy deployment
 
-You have an idea of a tool? Submit a [feature request](https://github.com/CorentinTh/it-tools/issues/new/choose)!
+## Quick Start
 
-## Self host
+### Docker (Recommended)
 
-Self host solutions for your homelab
-
-**From docker hub:**
-
-```sh
-docker run -d --name it-tools --restart unless-stopped -p 8080:80 corentinth/it-tools:latest
+```bash
+docker run -d --name it-tools --restart unless-stopped -p 8080:8080 nagarajan/it-tools:latest
 ```
 
-**From github packages:**
+### Docker Compose
 
-```sh
-docker run -d --name it-tools --restart unless-stopped -p 8080:80 ghcr.io/corentinth/it-tools:latest
+```yaml
+services:
+  it-tools:
+    container_name: it-tools
+    image: nagarajan/it-tools:latest
+    pull_policy: always
+    restart: unless-stopped
+    ports:
+      - 8080:8080
 ```
 
-**Other solutions:**
+### Local Installation
 
-- [Cloudron](https://www.cloudron.io/store/tech.ittools.cloudron.html)
-- [Tipi](https://www.runtipi.io/docs/apps-available)
-- [Unraid](https://unraid.net/community/apps?q=it-tools)
-
-## Contribute
-
-### Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) with the following extensions:
-
-- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur)
-- [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [i18n Ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally)
-
-with the following settings:
-
-```json
-{
-  "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "i18n-ally.localesPaths": ["locales", "src/tools/*/locales"],
-  "i18n-ally.keystyle": "nested"
-}
-```
-
-### Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-### Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
+```bash
+sudo apt-get install python3 make g++ && \
+git clone -b chore/all-my-stuffs https://github.com/rnagarajanmca/it-tools.git && \
+cd it-tools/ && \
+pnpm i --ignore-scripts && \
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Container Images
 
-```sh
-pnpm build
+- **Docker Hub**: `nagarajan/it-tools:latest`
+- **GitHub Container Registry**: `ghcr.io/rnagarajanmca/it-tools:latest`
+
+## Important Notes
+
+### Port Change
+The container now uses port **8080** instead of 80 (due to nginx-unprivileged base image). Update your port mappings from `8080:80` to `8080:8080`.
+
+### HTTPS Recommendation
+Some tools (like PGP encryption) require HTTPS/SSL for WebCrypto API. Enable HTTPS even for internal installations using Let's Encrypt with DNS Challenge.
+
+## Customization
+
+### Filter Tools
+Mount `tools-filter.json` to `/usr/share/nginx/html` to filter available tools using regex patterns.
+
+### Custom Home Content
+Mount `home.custom.md` to `/usr/share/nginx/html` to add custom content to the home page.
+
+### External Tools
+Add custom external tools by mounting `external-tools.json` with tool definitions.
+
+### Default Settings
+Set default tool parameters and UI language by mounting `tools-settings.json`.
+
+## Development
+
+### Prerequisites
+- Node.js 22+
+- pnpm
+- Python3, make, g++
+
+### Setup
+```bash
+pnpm install --ignore-scripts
+pnpm dev
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-pnpm test
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
-
-### Create a new tool
-
-To create a new tool, there is a script that generate the boilerplate of the new tool, simply run:
-
-```sh
+### Create New Tool
+```bash
 pnpm run script:create:tool my-tool-name
 ```
 
-It will create a directory in `src/tools` with the correct files, and a the import in `src/tools/index.ts`. You will just need to add the imported tool in the proper category and develop the tool.
+## Links
+
+- **GitHub Repository**: https://github.com/rnagarajanmca/it-tools
+- **Live Demo**: https://sharevb-it-tools.vercel.app/
+- **Docker Hub**: https://hub.docker.com/r/nagarajan/it-tools
 
 ## Contributors
 
-Big thanks to all the people who have already contributed!
+Big thanks to all contributors who have helped improve this project!
 
-[![contributors](https://contrib.rocks/image?repo=corentinth/it-tools&refresh=1)](https://github.com/corentinth/it-tools/graphs/contributors)
-
-## Credits
-
-Coded with ❤️ by [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=readme).
-
-This project is continuously deployed using [vercel.com](https://vercel.com).
-
-Contributor graph is generated using [contrib.rocks](https://contrib.rocks/preview?repo=corentinth/it-tools).
-
-<a href="https://www.producthunt.com/posts/it-tools?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-it&#0045;tools" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=345793&theme=light" alt="IT&#0032;Tools - Collection&#0032;of&#0032;handy&#0032;online&#0032;tools&#0032;for&#0032;devs&#0044;&#0032;with&#0032;great&#0032;UX | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-<a href="https://www.producthunt.com/posts/it-tools?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-it&#0045;tools" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=345793&theme=light&period=daily" alt="IT&#0032;Tools - Collection&#0032;of&#0032;handy&#0032;online&#0032;tools&#0032;for&#0032;devs&#0044;&#0032;with&#0032;great&#0032;UX | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+[![contributors](https://contrib.rocks/image?repo=rnagarajanmca/it-tools&refresh=1)](https://github.com/rnagarajanmca/it-tools/graphs/contributors)
 
 ## License
 
-This project is under the [GNU GPLv3](LICENSE).
+GNU GPLv3 - See [LICENSE](LICENSE) file for details.
