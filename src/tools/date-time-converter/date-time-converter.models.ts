@@ -127,13 +127,13 @@ function lDAPTimestampToDate(ldapTimestamp: string) {
   if (!yy || !mm) {
     return new Date();
   }
-  return new Date(
+  return new Date(Date.UTC(
     Number.parseInt(yy, 10),
     Number.parseInt(mm, 10) - 1,
     Number.parseInt(dd, 10),
     Number.parseInt(hh, 10),
     Number.parseInt(nn, 10),
-    Number.parseInt(ss, 10));
+    Number.parseInt(ss, 10)));
 }
 
 function dateToLDAPTimestamp(date: Date) {

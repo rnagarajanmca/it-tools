@@ -38,7 +38,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push (BASE_URL)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
@@ -47,27 +47,27 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            sharevb/it-tools:baseurl-it-tools
-            sharevb/it-tools:stable-baseurl-it-tools
-            sharevb/it-tools:${{ env.RELEASE_VERSION}}-baseurl-it-tools
-            ghcr.io/sharevb/it-tools:baseurl-it-tools
-            ghcr.io/sharevb/it-tools:stable-baseurl-it-tools
-            ghcr.io/sharevb/it-tools:${{ env.RELEASE_VERSION}}-baseurl-it-tools
+            nagarajan/it-tools:baseurl-it-tools
+            nagarajan/it-tools:stable-baseurl-it-tools
+            nagarajan/it-tools:${{ env.RELEASE_VERSION}}-baseurl-it-tools
+            ghcr.io/nagarajan/it-tools:baseurl-it-tools
+            ghcr.io/nagarajan/it-tools:stable-baseurl-it-tools
+            ghcr.io/nagarajan/it-tools:${{ env.RELEASE_VERSION}}-baseurl-it-tools
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            sharevb/it-tools:latest
-            sharevb/it-tools:stable
-            sharevb/it-tools:${{ env.RELEASE_VERSION}}
-            ghcr.io/sharevb/it-tools:latest
-            ghcr.io/sharevb/it-tools:stable
-            ghcr.io/sharevb/it-tools:${{ env.RELEASE_VERSION}}
+            nagarajan/it-tools:latest
+            nagarajan/it-tools:stable
+            nagarajan/it-tools:${{ env.RELEASE_VERSION}}
+            ghcr.io/nagarajan/it-tools:latest
+            ghcr.io/nagarajan/it-tools:stable
+            ghcr.io/nagarajan/it-tools:${{ env.RELEASE_VERSION}}
 
   github-release:
     runs-on: ubuntu-latest
@@ -86,7 +86,7 @@ jobs:
           corepack enable
           pnpm --version
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
@@ -120,14 +120,14 @@ jobs:
             ## Docker images
 
             - Docker Hub Registry
-              - `sharevb/it-tools:latest`
-              - `sharevb/it-tools:stable`
-              - `sharevb/it-tools:${{ env.RELEASE_VERSION}}`
+              - `nagarajan/it-tools:latest`
+              - `nagarajan/it-tools:stable`
+              - `nagarajan/it-tools:${{ env.RELEASE_VERSION}}`
 
             - GitHub Container Registry
-              - `ghcr.io/sharevb/it-tools:latest`
-              - `ghcr.io/sharevb/it-tools:stable`
-              - `ghcr.io/sharevb/it-tools:${{ env.RELEASE_VERSION}}`
+              - `ghcr.io/nagarajan/it-tools:latest`
+              - `ghcr.io/nagarajan/it-tools:stable`
+              - `ghcr.io/nagarajan/it-tools:${{ env.RELEASE_VERSION}}`
 
             ## Changelog
 
