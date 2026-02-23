@@ -23,14 +23,14 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && . ./set_node_mem.sh && vite build",
+    "build": ". ./set_node_mem.sh && vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5050",
     "test": "TZ=UTC npm run test:unit",
-    "test:unit": "TZ=UTC . ./set_node_mem.sh && vitest --environment jsdom",
-    "test:e2e": "TZ=UTC . ./set_node_mem.sh && playwright test",
+    "test:unit": ". ./set_node_mem.sh && TZ=UTC vitest --environment jsdom",
+    "test:e2e": ". ./set_node_mem.sh && TZ=UTC playwright test",
     "test:e2e:dev": "TZ=UTC BASE_URL=http://localhost:5173 NO_WEB_SERVER=true playwright test",
-    "coverage": "vitest run --coverage",
-    "typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "coverage": ". ./set_node_mem.sh && vitest run --coverage",
+    "typecheck": ". ./set_node_mem.sh && vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
     "script:create:tool": "node scripts/create-tool.mjs",
     "script:create:ui": "hygen generator ui-component",
@@ -470,5 +470,8 @@
   },
   "scarfSettings": {
     "enabled": false
+  },
+  "engines": {
+    "node": ">=18 <=22"
   }
 }
